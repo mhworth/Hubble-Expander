@@ -14,8 +14,7 @@ public class FriedmannODE implements FirstOrderDifferentialEquations {
 
 	@Override
 	public int getDimension() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 3;
 	}
 
 }

@@ -5,7 +5,9 @@ import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.ode.nonstiff.ClassicalRungeKuttaIntegrator;
 import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
+import org.apache.commons.math.ode.nonstiff.RungeKuttaIntegrator;
 
 import android.util.Log;
 
@@ -16,8 +18,8 @@ public class HarmonicODE implements FirstOrderDifferentialEquations {
 	
 	
 	public void compute(double[] y0, double t0, double tmax) throws DerivativeException, IntegratorException {
-		FirstOrderIntegrator dp853 = new DormandPrince853Integrator(1.0e-8, 100.0, 1.0e-10, 1.0e-10);
-		
+		FirstOrderIntegrator dp853 = new DormandPrince853Integrator(1.0e-6, 100.0, 1.0e-8, 1.0e-8);
+		//FirstOrderIntegrator dp853 = new ClassicalRungeKuttaIntegrator(1.0e-4);
 		com = new ContinuousOutputModel();
 		dp853.addStepHandler(com);
 		dp853.integrate(this, 0.0, y0, 16.0, y0);
