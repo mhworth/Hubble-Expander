@@ -2,6 +2,11 @@ package edu.utk.phys.astro;
 
 import java.util.Random;
 
+import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.ode.IntegratorException;
+
+import edu.utk.phys.astro.hubble.HarmonicODE;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -32,11 +37,12 @@ public class HubbleExpansionSim extends View {
 	float X0 = 0, Y0 = 0;
 	private float X[]; // Current X position of galaxy (pixels)
 	private float Y[]; // Current Y position of galaxy (pixels)
+	private float Dx[], Dy[];
 	private ShapeDrawable galaxy; // Galaxy symbol
 	private Paint paint;
 	private Random rnd = new Random();
 	private AnimationThread animThread;         // The animation thread
-	
+	private HarmonicODE ode;
 
 	final Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -59,12 +65,26 @@ public class HubbleExpansionSim extends View {
 
 		Handler mHandler;
 		int mState;
+		float ax[],bx[],ay[], by[];
+		int steps = 100;
+		int currentStep = 0;
 
 		// Constructor with an argument that specifies Handler on main thread
 		// to which messages will be sent by this thread.
 
 		AnimationThread(Handler h) {
 			mHandler = h;
+			
+			ax = new float[X.length];
+			bx = new float[Dx.length];
+			ay = new float[Y.length];
+			by = new float[Dy.length];
+			for(int i = 0; i< X.length; i++) {
+				ax[i] = X[i];
+				bx[i] = Dx[i];
+				ay[i] = Y[i];
+				by[i] = Dy[i];
+			}
 		}
 
 		/*
@@ -78,7 +98,10 @@ public class HubbleExpansionSim extends View {
 		@Override
 		public void run() {
 			mState = RUNNING;
-			while (mState == RUNNING) {
+			
+			for(int step = 0; step<steps & mState==RUNNING; step++) {
+				currentStep = step;
+				Log.i("Animator","Step");
 				newXY();
 				// The method Thread.sleep throws an InterruptedException if
 				// Thread.interrupt()
@@ -107,17 +130,23 @@ public class HubbleExpansionSim extends View {
 		}
 
 		/*
-		 * Method to increment angle theta and compute the new X and Y . The
-		 * orbits of the planets are actually ellipses with the Sun at one
-		 * focus, but for this example we approximate them as circles with the
-		 * Sun at the center but with the correct periods. The constant distance
-		 * from the Sun is set to the semimajor axis a[i], which is the average
-		 * separation of the planet from the Sun. Only Mercury has significant
-		 * eccentricity; the orbits for the other planets are very nearly
-		 * circles with the Sun at the center.
+		 * Method to set the new X/Y coordinate based upon the galaxy's trajectory to
+		 * its final (expanded) destination.
 		 */
 
 		private void newXY() {
+			for(int galaxyId = 0; galaxyId < numberOfGalaxies; galaxyId++) {
+				//X[galaxyId] += (Dx[galaxyId])/(float)steps;
+				//Y[galaxyId] += (Dy[galaxyId])/(float)steps;
+				try {
+					float result = (float)ode.getResult(((float)currentStep)*(16.0f/(float)steps))[1];
+					X[galaxyId] =  ax[galaxyId] + result/20.0f;
+					Y[galaxyId] =  ay[galaxyId] + result/20.0f;
+				} catch (DerivativeException e) {
+					e.printStackTrace();
+				}
+			}
+			
 		}
 
 		// Set current state of thread (use state=AnimationThread.DONE to stop
@@ -144,9 +173,19 @@ public class HubbleExpansionSim extends View {
 		// Initialize the galaxy location arrays
 		setNumberOfGalaxies(50);
 		
+		// Initialize the ODE
+		ode = new HarmonicODE();
+		try {
+			ode.compute(new double[]{1.0,1.0}, 0, 16);
+		} catch (DerivativeException e) {
+			e.printStackTrace();
+		} catch (IntegratorException e) {
+			e.printStackTrace();
+		}
+		
 		// Create the animation thread
 	    animThread = new AnimationThread(handler);
-	    animThread.start();
+	    //animThread.start();
 	}
 
 	// Stop the thread loop
@@ -156,16 +195,21 @@ public class HubbleExpansionSim extends View {
 
 	// Start the thread loop
 	public void startLooper() {
-		animThread.setState(RUNNING);
+		animThread = new AnimationThread(handler);
+		animThread.start();
 	}
 
 	public void setNumberOfGalaxies(int nGalaxies) {
 		numberOfGalaxies = nGalaxies;
 		X = new float[numberOfGalaxies];
 		Y = new float[numberOfGalaxies];
+		Dx = new float[numberOfGalaxies];
+		Dy = new float[numberOfGalaxies];
 		for (int i = 0; i < numberOfGalaxies; i++) {
 			X[i] = rnd.nextFloat();
 			Y[i] = rnd.nextFloat();
+			Dx[i] = rnd.nextFloat()/2.0f;
+			Dy[i] = rnd.nextFloat()/2.0f;
 		}
 	}
 

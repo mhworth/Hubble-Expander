@@ -51,19 +51,18 @@ public class HubbleExpander extends Activity implements OnClickListener {
 		Log.i("Result","Clicked!");
 		expansion.setNumberOfGalaxies(50);
 		
-		HarmonicODE harm = new HarmonicODE();
-		try {
-			harm.compute(new double[] { 1.0, 1.0 }, 0, 16);
-			for (int i = 0; i < 16; i++) {
-				Log.i("DIFFEQ","i = " + i + "y = " + harm.getResult(i)[1]);
-			}
-		} catch (DerivativeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IntegratorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		expansion.startLooper();
+//		HarmonicODE harm = new HarmonicODE();
+//		try {
+//			harm.compute(new double[] { 1.0, 1.0 }, 0, 16);
+//			for (int i = 0; i < 16; i++) {
+//				Log.i("DIFFEQ","i = " + i + "y = " + harm.getResult(i)[1]);
+//			}
+//		} catch (DerivativeException e) {
+//			e.printStackTrace();
+//		} catch (IntegratorException e) {
+//			e.printStackTrace();
+//		}
 		
 	}
 }
