@@ -1,5 +1,9 @@
 package edu.utk.phys.astro;
 
+import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.ode.IntegratorException;
+
+import edu.utk.phys.astro.hubble.HarmonicODE;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -46,5 +50,20 @@ public class HubbleExpander extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		Log.i("Result","Clicked!");
 		expansion.setNumberOfGalaxies(50);
+		
+		HarmonicODE harm = new HarmonicODE();
+		try {
+			harm.compute(new double[] { 1.0, 1.0 }, 0, 16);
+			for (int i = 0; i < 16; i++) {
+				Log.i("DIFFEQ","i = " + i + "y = " + harm.getResult(i)[1]);
+			}
+		} catch (DerivativeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IntegratorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }
