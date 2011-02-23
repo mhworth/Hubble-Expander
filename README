@@ -1,0 +1,12 @@
+Hubble Expander
+================
+
+A simulation of hubble expansion for the Android platform.
+
+
+Usage
+=====
+
+Tap: Expand the universe with a constant of 1.1 (not configurable at the moment)
+Drag: Move the origin
+
