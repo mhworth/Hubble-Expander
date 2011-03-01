@@ -8,9 +8,26 @@
 	android:id="@+id/txt1"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:text="@string/hello"
+    android:text="@string/hello" 
     />
+    <SeekBar
+   android:layout_width="fill_parent"
+   android:layout_height="wrap_content"
+   android:layout_margin="10px"
+   android:id="@+id/seekbar"
+   android:max="100"
+   android:progress="20"
+   />
     
+    
+    <view 
+         class="edu.utk.phys.astro.HubbleExpansionSim"
+         android:id="@+id/hubble_expansion"
+         android:gravity="top"
+         android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content" 
+         />
+         
     <Button
             android:id="@+id/button1"
             android:layout_width="fill_parent"

@@ -15,6 +15,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Handler;
 import android.os.Message;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -161,7 +162,16 @@ public class HubbleExpansionSim extends View {
 
 	public HubbleExpansionSim(Context context) {
 		super(context);
+		init();
 
+	}
+	
+	public HubbleExpansionSim(Context context, AttributeSet attrs) {
+		super(context,attrs);
+		init();
+	}
+	
+	public void init() {
 		// Define the galaxy as circular shape
 		galaxy = new ShapeDrawable(new OvalShape());
 		galaxy.getPaint().setColor(Color.WHITE);
@@ -172,10 +182,6 @@ public class HubbleExpansionSim extends View {
 		paint.setAntiAlias(true);
 		paint.setTextSize(14);
 		paint.setStrokeWidth(1);
-
-		// Initialize the galaxy location arrays
-		// setNumberOfGalaxies(50);
-
 	}
 	
 	private void newXY(float percentage) {
@@ -215,6 +221,11 @@ public class HubbleExpansionSim extends View {
 			X[i] = (rnd.nextFloat()) * width;
 			Y[i] = (rnd.nextFloat()) * height;
 		}
+	}
+	
+	public void newUniverse() {
+		setNumberOfGalaxies(numberOfGalaxies);
+		invalidate();
 	}
 
 	/*
@@ -433,6 +444,10 @@ public class HubbleExpansionSim extends View {
 
 		return true;
 
+	}
+	
+	float getExpansionConstant() {
+		return this.expansionConstant;
 	}
 
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/new_universe"
+          android:icon="@drawable/ic_menu_compass"
+          android:title="@string/new_universe" />
+    <!--  <item android:id="@+id/hubble_analysis"
+          android:icon="@drawable/ic_menu_sort_by_size"
+          android:title="@string/hubble_analysis" />
+          -->
+    <item android:id="@+id/help"
+          android:icon="@drawable/ic_menu_help"
+          android:title="@string/help" />
+</menu>
