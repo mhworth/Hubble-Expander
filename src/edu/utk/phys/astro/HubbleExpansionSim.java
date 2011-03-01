@@ -203,7 +203,9 @@ public class HubbleExpansionSim extends View {
 
 	// Stop the thread loop
 	public void stopLooper() {
-		animThread.setState(DONE);
+		if(animThread!=null) {
+			animThread.setState(DONE);
+		}
 	}
 
 	// Start the thread loop
