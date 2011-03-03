@@ -12,6 +12,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity android:name=".HubbleAnalysis"
+                  android:label="@string/hubble_analysis_title">
+            
+        </activity>
 
     </application>
 </manifest>

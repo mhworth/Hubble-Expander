@@ -6,6 +6,7 @@ import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
 
 import edu.utk.phys.astro.hubble.HarmonicODE;
+import edu.utk.phys.astro.hubble.HubbleAnalysisData;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -450,6 +451,36 @@ public class HubbleExpansionSim extends View {
 	
 	float getExpansionConstant() {
 		return this.expansionConstant;
+	}
+	
+	public float[] getUniverseCenter() {
+		return new float[] {X0,Y0};
+	}
+	
+	public float[][] getGalaxyPositions() {
+		return new float[][] {X,Y};
+	}
+	
+	public float[][] getExpandedGalaxyPositions() {
+		return new float[][] {expandedX,expandedY};
+	}
+	
+	public int getNumberOfGalaxies() {
+		return numberOfGalaxies;
+	}
+	
+	public boolean isExpanded() {
+		return this.isExpanded;
+	}
+	
+	public HubbleAnalysisData toHubbleAnalysisData() {
+		HubbleAnalysisData dat = new HubbleAnalysisData();
+		dat.initialPositions = getGalaxyPositions();
+		dat.finalPositions = getExpandedGalaxyPositions();
+		dat.universeCenter = getUniverseCenter();
+		dat.isExpanded = isExpanded();
+		dat.numberOfGalaxies = getNumberOfGalaxies();
+		return dat;
 	}
 
 }

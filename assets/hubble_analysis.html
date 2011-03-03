@@ -1,0 +1,52 @@
+<html>
+<head>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="jquery.flot.js"></script>
+<style type="text/css">
+   #graphtitle {
+   	text-align: center;
+   	color: blue;
+   }
+   
+   .yaxis { 
+	 display:block; 
+	 position:absolute; 
+	 right:-96px; top:150px;
+	 -webkit-transform: rotate(90deg); 
+	 -moz-transform: rotate(90deg);		
+	 }
+   
+ </style>
+</head>
+
+
+<body>
+<div id="graphtitle"></div>
+<div id="placeholder" style="width:100%;height:300px"></div>
+<div style="text-align: center; ">Distance (pixels)</div>
+
+<script id="source" language="javascript" type="text/javascript">
+function GotGraph(gdata) {
+	$.plot($("#placeholder"), gdata);
+	var placeholder = $("#placeholder");
+	var o;
+	//o = plot.pointOffset({ x: 2, y: 6});
+    // we just append it to the placeholder which Flot already uses
+    // for positioning
+    placeholder.append('<div style="position:absolute;left:' + 25 + 'px;top:' + 20 + 'px;color:#666;font-size:smaller">Hubble Constant: ' + window.hubble_analysis_handler.getHubbleConstant().toFixed(2) + ' pixels/unit time/pixel</div>');
+	placeholder.append('<div class="yaxis">Velocity (pixels/unit time)</div>');
+}
+</script>
+
+
+<script id="source" language="javascript" type="text/javascript"> 
+$(function () {
+   document.getElementById('graphtitle').innerHTML = window.hubble_analysis_handler.getGraphTitle();
+	window.hubble_analysis_handler.loadGraph();
+	
+});
+</script> 
+
+
+</body>
+</html>

@@ -2,9 +2,10 @@
 <resources>
     <string name="hello">Hello World, HubbleExpander!</string>
     <string name="app_name">Hubble Expander</string>
+    <string name="hubble_analysis_title">Hubble Analysis</string>
     <string name="button1_label">Button1</string>
     <string name="new_universe">New Universe</string>
     <string name="hubble_analysis">Hubble Analysis</string>
     <string name="help">Help</string>
-    <string name="help_dialog">Tap to start expansion.  Drag to move the "center of the universe".</string>
+    <string name="help_dialog">Tap to start expansion.  Drag to move the "center of the universe".  Select "Hubble Analysis" to plot velocity vs. position and fit it with a line to get the Hubble Constant.</string>
 </resources>
